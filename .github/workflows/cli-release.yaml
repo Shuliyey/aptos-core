@@ -59,6 +59,7 @@ jobs:
             curl https://sh.rustup.rs -sSf | sh -s -- -y
           run: |
             source "$HOME/.cargo/env"
+            echo test
             nproc
             free -g
             scripts/cli/build_cli_release.sh
