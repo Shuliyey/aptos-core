@@ -59,6 +59,8 @@ jobs:
             curl https://sh.rustup.rs -sSf | sh -s -- -y
           run: |
             source "$HOME/.cargo/env"
+            nproc
+            free -g
             scripts/cli/build_cli_release.sh
             cp aptos-cli-*.zip /artifacts/
       - name: Upload Binary
