@@ -4,20 +4,21 @@
 name: "Release CLI"
 
 on:
-  workflow_dispatch:
-    inputs:
-      release_tag:
-        type: string
-        required: true
-        description: "The release tag to create. E.g. `aptos-cli-v0.2.3`:"
-      source_git_ref_override:
-        type: string
-        required: false
-        description: "GIT_SHA_OVERRIDE: Use this to override the Git SHA1, branch name (e.g. devnet) or tag to build the binaries from. Defaults to the workflow Git REV, but can be different than that:"
-      release_title:
-        type: string
-        required: false
-        description: "Name of the release, e.g. \"Aptos CLI devnet release 2022-06-09\":"
+  push
+  # workflow_dispatch:
+  #   inputs:
+  #     release_tag:
+  #       type: string
+  #       required: true
+  #       description: "The release tag to create. E.g. `aptos-cli-v0.2.3`:"
+  #     source_git_ref_override:
+  #       type: string
+  #       required: false
+  #       description: "GIT_SHA_OVERRIDE: Use this to override the Git SHA1, branch name (e.g. devnet) or tag to build the binaries from. Defaults to the workflow Git REV, but can be different than that:"
+  #     release_title:
+  #       type: string
+  #       required: false
+  #       description: "Name of the release, e.g. \"Aptos CLI devnet release 2022-06-09\":"
 
 jobs:
   build-linux-binary:
@@ -84,28 +85,28 @@ jobs:
           name: cli-builds
           path: aptos-cli-*.zip
 
-  release-binaries:
-    name: "Release binaries"
-    needs:
-      - build-linux-binary
-      - build-linux-binary-arm64
-      - build-os-x-binary
-      - build-windows-binary
-    runs-on: ubuntu-latest
-    permissions:
-      contents: "write"
-      pull-requests: "read"
-    steps:
-      - name: Download prebuilt binaries
-        uses: actions/download-artifact@v3
-        with:
-          name: cli-builds
-      - name: Create GitHub Release
-        uses: "marvinpinto/action-automatic-releases@v1.2.1"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ github.event.inputs.release_tag }}"
-          prerelease: false
-          title: "${{ github.event.inputs.release_title }}"
-          files: |
-            aptos-cli-*.zip
+  # release-binaries:
+  #   name: "Release binaries"
+  #   needs:
+  #     - build-linux-binary
+  #     - build-linux-binary-arm64
+  #     - build-os-x-binary
+  #     - build-windows-binary
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: "write"
+  #     pull-requests: "read"
+  #   steps:
+  #     - name: Download prebuilt binaries
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: cli-builds
+  #     - name: Create GitHub Release
+  #       uses: "marvinpinto/action-automatic-releases@v1.2.1"
+  #       with:
+  #         repo_token: "${{ secrets.GITHUB_TOKEN }}"
+  #         automatic_release_tag: "${{ github.event.inputs.release_tag }}"
+  #         prerelease: false
+  #         title: "${{ github.event.inputs.release_title }}"
+  #         files: |
+  #           aptos-cli-*.zip
