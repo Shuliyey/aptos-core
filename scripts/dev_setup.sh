@@ -649,7 +649,7 @@ function install_postgres {
     install_pkg libpq-devel "$PACKAGE_MANAGER"
   fi
   if [[ "$PACKAGE_MANAGER" == "brew" ]]; then
-    install_pkg postgresql "$PACKAGE_MANAGER"
+    install_pkg libpq "$PACKAGE_MANAGER"
   fi
 }
 
