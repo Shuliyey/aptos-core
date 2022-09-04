@@ -55,7 +55,7 @@ jobs:
             --volume "${PWD}/artifacts:/artifacts"
           install: |
             apt-get update -y -q
-            apt-get install -y -q libpq-dev curl openssl libssl-dev pkg-config build-essential clang libclang-dev
+            apt-get install -y -q git libpq-dev curl openssl libssl-dev pkg-config build-essential clang libclang-dev
             curl https://sh.rustup.rs -sSf | sh -s -- -y
           run: |
             source "$HOME/.cargo/env"
