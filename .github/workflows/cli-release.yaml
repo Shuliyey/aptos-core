@@ -56,7 +56,7 @@ jobs:
           install: |
             apt-get update -y -q
             apt-get install -y -q libpq-dev curl openssl libssl-dev pkg-config
-            curl https://sh.rustup.rs -sSf | sh
+            curl https://sh.rustup.rs -sSf | sh -s -- y
           run: |
             scripts/cli/build_cli_release.sh
             cp aptos-cli-*.zip /artifacts/
