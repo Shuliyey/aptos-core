@@ -48,42 +48,53 @@ jobs:
         with:
           arch: aarch64
           distro: ubuntu_latest
-          run: scripts/cli/build_cli_release.sh
+          githubToken: ${{ github.token }}
+          setup: |
+            mkdir -p "${PWD}/artifacts"
+          dockerRunArgs: |
+            --volume "${PWD}/artifacts:/artifacts"
+          install: |
+            apt-get update -y -q
+            apt-get install -y -q libpq-dev
+            curl https://sh.rustup.rs -sSf | sh
+          run: |
+            scripts/cli/build_cli_release.sh
+            cp aptos-cli_*.zip /artifacts/
       - name: Upload Binary
         uses: actions/upload-artifact@v3
         with:
           name: cli-builds
-          path: aptos-cli-*.zip
+          path: artifacts/aptos-cli-*.zip
 
-  build-os-x-binary:
-    name: "Build OS X binary"
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.source_git_ref_override }}
-      - name: Build CLI
-        run: scripts/cli/build_cli_release.sh
-      - name: Upload Binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: cli-builds
-          path: aptos-cli-*.zip
+  # build-os-x-binary:
+  #   name: "Build OS X binary"
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         ref: ${{ github.event.inputs.source_git_ref_override }}
+  #     - name: Build CLI
+  #       run: scripts/cli/build_cli_release.sh
+  #     - name: Upload Binary
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: cli-builds
+  #         path: aptos-cli-*.zip
 
-  build-windows-binary:
-    name: "Build Windows binary"
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.inputs.source_git_ref_override }}
-      - name: Build CLI
-        run: scripts\cli\build_cli_release.ps1
-      - name: Upload Binary
-        uses: actions/upload-artifact@v3
-        with:
-          name: cli-builds
-          path: aptos-cli-*.zip
+  # build-windows-binary:
+  #   name: "Build Windows binary"
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         ref: ${{ github.event.inputs.source_git_ref_override }}
+  #     - name: Build CLI
+  #       run: scripts\cli\build_cli_release.ps1
+  #     - name: Upload Binary
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: cli-builds
+  #         path: aptos-cli-*.zip
 
   # release-binaries:
   #   name: "Release binaries"
