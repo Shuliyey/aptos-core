@@ -59,7 +59,7 @@ jobs:
             curl https://sh.rustup.rs -sSf | sh
           run: |
             scripts/cli/build_cli_release.sh
-            cp aptos-cli_*.zip /artifacts/
+            cp aptos-cli-*.zip /artifacts/
       - name: Upload Binary
         uses: actions/upload-artifact@v3
         with:
