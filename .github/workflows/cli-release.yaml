@@ -58,8 +58,7 @@ jobs:
             apt-get install -y -q libpq-dev curl openssl libssl-dev pkg-config build-essential clang libclang-dev
             curl https://sh.rustup.rs -sSf | sh -s -- -y
           run: |
-            echo "$HOME/.cargo/env"
-            ls "$HOME/.cargo/env"
+            source "$HOME/.cargo/env"
             scripts/cli/build_cli_release.sh
             cp aptos-cli-*.zip /artifacts/
       - name: Upload Binary
