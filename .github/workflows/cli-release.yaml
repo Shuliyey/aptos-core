@@ -55,7 +55,7 @@ jobs:
             --volume "${PWD}/artifacts:/artifacts"
           install: |
             apt-get update -y -q
-            apt-get install -y -q libpq-dev
+            apt-get install -y -q libpq-dev curl openssl libssl-dev pkg-config
             curl https://sh.rustup.rs -sSf | sh
           run: |
             scripts/cli/build_cli_release.sh
