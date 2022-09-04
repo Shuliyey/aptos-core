@@ -29,7 +29,10 @@ jobs:
         with:
           ref: ${{ github.event.inputs.source_git_ref_override }}
       - name: Build CLI
-        run: scripts/cli/build_cli_release.sh
+        run: |
+          nproc
+          free -g
+          scripts/cli/build_cli_release.sh
       - name: Upload Binary
         uses: actions/upload-artifact@v3
         with:
